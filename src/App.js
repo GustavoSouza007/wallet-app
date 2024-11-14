@@ -1,5 +1,7 @@
+import { LoginScreen } from "./screens/Login";
+
 function App() {
-  return;
+  return <LoginScreen />;
 }
 
 export default App;
