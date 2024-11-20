@@ -2,17 +2,23 @@ import { Button, Input } from "../../components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-export const LoginScreen = () => {
+export const RegisterScreen = () => {
   const { handleSubmit, values, handleChange, errors } = useFormik({
     initialValues: {
+      name: "",
       email: "",
     },
     validationSchema: Yup.object({
+      name: Yup.string()
+        .min(3, "Nome deve conter ao menos 3 caracteres.")
+        .required("Nome é obrigatório."),
       email: Yup.string()
         .email("E-mail inválido.")
         .required("E-mail é obrigatório."),
     }),
-    onSubmit: (data) => {},
+    onSubmit: (data) => {
+      console.log({ data });
+    },
   });
 
   return (
@@ -24,32 +30,42 @@ export const LoginScreen = () => {
             src="/images/logo.png"
             alt="logo"
           />
-          <h3 className="w-full text-lg font-bold mb-4">Bem vindo!</h3>
+          <h3 className="w-full text-lg font-bold mb-4">Novo cadastro</h3>
           <p className="text-sm font-medium text-gray-500 mb-4">
-            Digite seu e-mail abaixo para ter acesso à aplicação financeira
-            Wallet, e ter uma melhor controle dos seus gastos mensais.
+            Insira seu nome e seu e-mail para ter acesso ao Wallet app e
+            gerenciar suas finanças.
           </p>
           <form onSubmit={handleSubmit} className="w-full">
             <Input
+              error={errors.name}
+              onChange={handleChange}
+              value={values.name}
+              id="name"
+              className="mb-8"
+              name="name"
+              type="text"
+              label="Nome"
+              placeholder="Insira seu nome"
+            />
+            <Input
               error={errors.email}
               onChange={handleChange}
-              id="email"
               value={values.email}
+              id="email"
               className="mb-8"
               name="email"
               type="email"
               label="E-mail"
               placeholder="email@exemplo.com"
             />
-
             <Button type="submit" className="mb-10">
-              Acessar
+              Cadastrar
             </Button>
             <a
-              href="/signup"
+              href="/"
               className="flex justify-center text-sm font-semibold cursor-pointer underline"
             >
-              Não tem conta? Faça seu cadastro aqui.
+              Já possui uma conta? Faça login aqui.
             </a>
           </form>
         </div>
