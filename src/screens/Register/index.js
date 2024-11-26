@@ -1,8 +1,27 @@
 import { Button, Input } from "../../components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useMutation } from "react-query";
+import { registerCall } from "../../services/api/requests";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const RegisterScreen = () => {
+  const navigate = useNavigate();
+  const mutation = useMutation((newUser) => registerCall(newUser), {
+    onError: (error) => {
+      toast.error(
+        error?.response?.data?.error
+          ? "Usuário já existe"
+          : "Por favor, tente novamente."
+      );
+    },
+    onSuccess: () => {
+      toast.success("Conta criada com sucesso!");
+      navigate("/");
+    },
+  });
+
   const { handleSubmit, values, handleChange, errors } = useFormik({
     initialValues: {
       name: "",
@@ -17,7 +36,7 @@ export const RegisterScreen = () => {
         .required("E-mail é obrigatório."),
     }),
     onSubmit: (data) => {
-      console.log({ data });
+      mutation.mutate(data);
     },
   });
 
@@ -58,8 +77,12 @@ export const RegisterScreen = () => {
               label="E-mail"
               placeholder="email@exemplo.com"
             />
-            <Button type="submit" className="mb-10">
-              Cadastrar
+            <Button
+              disabled={mutation.isLoading}
+              type="submit"
+              className="mb-10"
+            >
+              {mutation.isLoading ? "Cadastrando..." : "Cadastrar"}
             </Button>
             <a
               href="/"

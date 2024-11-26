@@ -1,8 +1,27 @@
 import { Button, Input } from "../../components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { loginCall } from "../../services/api/requests";
+import { toast } from "react-toastify";
 
 export const LoginScreen = () => {
+  const navigate = useNavigate();
+  const mutation = useMutation((newUser) => loginCall(newUser), {
+    onError: (error) => {
+      toast.error(
+        error?.response?.data?.error
+          ? "Falha ao realizar login."
+          : "Por favor, tente novamente."
+      );
+    },
+    onSuccess: () => {
+      toast.success("Login com sucesso!");
+      navigate("/home");
+    },
+  });
+
   const { handleSubmit, values, handleChange, errors } = useFormik({
     initialValues: {
       email: "",
@@ -12,7 +31,9 @@ export const LoginScreen = () => {
         .email("E-mail inválido.")
         .required("E-mail é obrigatório."),
     }),
-    onSubmit: (data) => {},
+    onSubmit: (data) => {
+      mutation.mutate(data);
+    },
   });
 
   return (
@@ -42,8 +63,12 @@ export const LoginScreen = () => {
               placeholder="email@exemplo.com"
             />
 
-            <Button type="submit" className="mb-10">
-              Acessar
+            <Button
+              disabled={mutation.isLoading}
+              type="submit"
+              className="mb-10"
+            >
+              {mutation.isLoading ? "Carregando..." : "Acessar"}
             </Button>
             <a
               href="/signup"
