@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 export const LoginScreen = () => {
   const navigate = useNavigate();
-  const mutation = useMutation((newUser) => loginCall(newUser), {
+  const mutation = useMutation((data) => loginCall(data.email), {
     onError: (error) => {
       toast.error(
         error?.response?.data?.error
