@@ -5,6 +5,7 @@ import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { loginCall } from "../../services/api/requests";
 import { toast } from "react-toastify";
+import { saveItem } from "../../services/storage";
 
 export const LoginScreen = () => {
   const navigate = useNavigate();
@@ -16,8 +17,11 @@ export const LoginScreen = () => {
           : "Por favor, tente novamente."
       );
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Login com sucesso!");
+      saveItem("@walletApp_email", data?.data?.email);
+      saveItem("@walletApp_name", data?.data?.name);
+      saveItem("@walletApp_id", data?.data?.id);
       navigate("/home");
     },
   });
