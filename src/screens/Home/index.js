@@ -1,6 +1,6 @@
 import { getFinancesData } from "../../services/request";
 import { useEffect, useState } from "react";
-import { FinanceCard } from "../../components";
+import { Button, FinanceCard } from "../../components";
 
 export const HomeScreen = () => {
   const username = localStorage.getItem("@walletApp_name");
@@ -84,6 +84,60 @@ export const HomeScreen = () => {
             })}
           </p>
         </FinanceCard>
+      </div>
+      <div className="w-full h-full flex flex-col items-start justify-start px-28">
+        <div className="w-full h-full flex flex-col items-start justify-start rounded-3xl p-6 mb-8 bg-slate-50">
+          <div className="w-full flex flex-row items-center justify-between pb-6">
+            <h2 className="font-bold text-2xl">Últimos lançamentos</h2>
+            <Button variant="smallButton" />
+          </div>
+          <table className="w-full border-collapse text-left">
+            <thead className="border-b">
+              <tr>
+                <th className="px-4 py-2">Título</th>
+                <th className="px-4 py-2 text-center">Categoria</th>
+                <th className="px-4 py-2 text-center">Data</th>
+                <th className="px-4 py-2 text-center">Valor</th>
+                <th className="px-4 py-2 text-right">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b hover:bg-gray-100">
+                <td className="px-4 py-2">Item1</td>
+                <td className="px-4 py-2 text-center">Item1</td>
+                <td className="px-4 py-2 text-center">Item1</td>
+                <td className="px-4 py-2 text-center">Item1</td>
+                <td className="px-4 py-2 text-right">
+                  <button className="text-red-500 hover:underline">
+                    Deletar
+                  </button>
+                </td>
+              </tr>
+              <tr className="border-b hover:bg-gray-100">
+                <td className="px-4 py-2">Item1</td>
+                <td className="px-4 py-2 text-center">Item1</td>
+                <td className="px-4 py-2 text-center">Item1</td>
+                <td className="px-4 py-2 text-center">Item1</td>
+                <td className="px-4 py-2 text-right">
+                  <button className="text-red-500 hover:underline">
+                    Deletar
+                  </button>
+                </td>
+              </tr>
+              <tr className="border-b hover:bg-gray-100">
+                <td className="px-4 py-2">Item1</td>
+                <td className="px-4 py-2 text-center">Item1</td>
+                <td className="px-4 py-2 text-center">Item1</td>
+                <td className="px-4 py-2 text-center">Item1</td>
+                <td className="px-4 py-2 text-right">
+                  <button className="text-red-500 hover:underline">
+                    Deletar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
