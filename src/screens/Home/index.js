@@ -102,39 +102,30 @@ export const HomeScreen = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b hover:bg-gray-100">
-                <td className="px-4 py-2">Item1</td>
-                <td className="px-4 py-2 text-center">Item1</td>
-                <td className="px-4 py-2 text-center">Item1</td>
-                <td className="px-4 py-2 text-center">Item1</td>
-                <td className="px-4 py-2 text-right">
-                  <button className="text-red-500 hover:underline">
-                    Deletar
-                  </button>
-                </td>
-              </tr>
-              <tr className="border-b hover:bg-gray-100">
-                <td className="px-4 py-2">Item1</td>
-                <td className="px-4 py-2 text-center">Item1</td>
-                <td className="px-4 py-2 text-center">Item1</td>
-                <td className="px-4 py-2 text-center">Item1</td>
-                <td className="px-4 py-2 text-right">
-                  <button className="text-red-500 hover:underline">
-                    Deletar
-                  </button>
-                </td>
-              </tr>
-              <tr className="border-b hover:bg-gray-100">
-                <td className="px-4 py-2">Item1</td>
-                <td className="px-4 py-2 text-center">Item1</td>
-                <td className="px-4 py-2 text-center">Item1</td>
-                <td className="px-4 py-2 text-center">Item1</td>
-                <td className="px-4 py-2 text-right">
-                  <button className="text-red-500 hover:underline">
-                    Deletar
-                  </button>
-                </td>
-              </tr>
+              {financesData.map((item) => (
+                <tr key={item.id} className="border-b hover:bg-gray-100">
+                  <td className="px-4 py-2">{item.title}</td>
+                  <td className="px-4 py-2 text-center">{item.name}</td>
+                  <td className="px-4 py-2 text-center">
+                    {new Date(item.date).toLocaleDateString("pt-BR")}
+                  </td>
+                  <td
+                    className={`px-4 py-2 text-center ${
+                      Number(item.value) < 0 ? "text-red-400" : ""
+                    }`}
+                  >
+                    {Number(item.value).toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </td>
+                  <td className="px-4 py-2 text-right">
+                    <button className="text-red-600 hover:underline">
+                      Deletar
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
