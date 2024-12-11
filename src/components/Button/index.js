@@ -1,4 +1,11 @@
-export const Button = ({ children, variant, className, type, disabled }) => {
+export const Button = ({
+  children,
+  variant,
+  className,
+  type,
+  disabled,
+  onClick,
+}) => {
   const primary = `${className} w-full h-14 rounded-xl font-bold text-base border-2 border-solid text-slate-50 border-violet-700
    bg-violet-700
   transition-all duration-500
@@ -9,8 +16,8 @@ export const Button = ({ children, variant, className, type, disabled }) => {
 
   const smallButton = (className = `
     w-24 h-9
-    relative z-0 flex items-center overflow-hidden rounded-lg border-2 
-    border-violet-700 font-semibold px-2
+    relative z-0 flex items-center justify-center overflow-hidden rounded-lg border-2 
+    border-violet-700 font-semibold
     text-violet-700 transition-all duration-500
     
     before:absolute before:inset-0
@@ -26,11 +33,12 @@ export const Button = ({ children, variant, className, type, disabled }) => {
     active:scale-95`);
   return (
     <button
+      onClick={onClick}
       disabled={disabled}
       type={type}
       className={variant === "smallButton" ? smallButton : primary}
     >
-      {variant === "smallButton" ? "Adicionar" : children}
+      {children}
     </button>
   );
 };

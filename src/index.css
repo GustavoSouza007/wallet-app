@@ -10,9 +10,19 @@
   box-sizing: border-box;
   font-family: "Noto Sans", serif;
   color: black;
+  overflow: hidden;
   --toastify-text-color-error: #fff;
 }
 
 td {
   color: #7c7c7c;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

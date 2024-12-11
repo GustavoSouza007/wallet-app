@@ -1,8 +1,9 @@
 import { getFinancesData } from "../../services/request";
 import { useEffect, useState } from "react";
-import { Button, FinanceCard } from "../../components";
+import { Button, FinanceCard, Modal } from "../../components";
 
 export const HomeScreen = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const username = localStorage.getItem("@walletApp_name");
   const email = localStorage.getItem("@walletApp_email");
   const [financesData, setFinancesData] = useState([]);
@@ -12,6 +13,7 @@ export const HomeScreen = () => {
 
   const loadFinancesData = async () => {
     const result = await getFinancesData();
+
     setFinancesData(result);
 
     const receitas = result.filter((item) => Number(item.value) > 0);
@@ -33,7 +35,19 @@ export const HomeScreen = () => {
 
   useEffect(() => {
     loadFinancesData();
-  }, []);
+  }, []); // Apenas faz a chamada inicial, como esperado
+
+  const onClickAddButton = () => {
+    setModalVisible(true);
+  };
+
+  const onCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleFinanceAdded = () => {
+    loadFinancesData(); // Recarrega os lançamentos ao adicionar um novo
+  };
 
   return (
     <div className="w-dvw h-dvh flex flex-col items-start justify-start bg-gray-200">
@@ -77,7 +91,7 @@ export const HomeScreen = () => {
         </FinanceCard>
         <FinanceCard>
           <h3 className="font-bold text-lg">Balanço</h3>
-          <p className="font-extrabold text-4xl mt-3 text-[#5936cd]">
+          <p className="font-extrabold text-4xl mt-3 text-[#6d28d9]">
             {balance.toLocaleString("pt-BR", {
               style: "currency",
               currency: "BRL",
@@ -85,11 +99,13 @@ export const HomeScreen = () => {
           </p>
         </FinanceCard>
       </div>
-      <div className="w-full h-full flex flex-col items-start justify-start px-28">
-        <div className="w-full h-full flex flex-col items-start justify-start rounded-3xl p-6 mb-8 bg-slate-50">
+      <div className="w-full max-h-full flex flex-col items-start justify-start px-28">
+        <div className="w-full max-h-[68%] flex flex-col items-start justify-start rounded-3xl p-6 mb-8 overflow-y-scroll  bg-slate-50 scrollbar-hide">
           <div className="w-full flex flex-row items-center justify-between pb-6">
             <h2 className="font-bold text-2xl">Últimos lançamentos</h2>
-            <Button variant="smallButton" />
+            <Button onClick={onClickAddButton} variant="smallButton">
+              Adicionar
+            </Button>
           </div>
           <table className="w-full border-collapse text-left">
             <thead className="border-b">
@@ -130,6 +146,9 @@ export const HomeScreen = () => {
           </table>
         </div>
       </div>
+      {modalVisible && (
+        <Modal onClose={onCloseModal} onFinanceAdded={handleFinanceAdded} />
+      )}
     </div>
   );
 };
