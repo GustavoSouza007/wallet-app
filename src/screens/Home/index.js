@@ -1,4 +1,4 @@
-import { getFinancesData } from "../../services/request";
+import { getFinancesData, onDeleteItem } from "../../services/request";
 import { useEffect, useState } from "react";
 import { Button, FinanceCard, Modal } from "../../components";
 
@@ -47,6 +47,15 @@ export const HomeScreen = () => {
 
   const handleFinanceAdded = () => {
     loadFinancesData(); // Recarrega os lançamentos ao adicionar um novo
+  };
+
+  const handleDeleteItem = async (id) => {
+    try {
+      await onDeleteItem(id); // Chama a API para deletar o item
+      setFinancesData((prevData) => prevData.filter((item) => item.id !== id));
+    } catch (error) {
+      alert("Erro ao deletar item.");
+    }
   };
 
   return (
@@ -99,8 +108,8 @@ export const HomeScreen = () => {
           </p>
         </FinanceCard>
       </div>
-      <div className="w-full max-h-full flex flex-col items-start justify-start px-28">
-        <div className="w-full max-h-[68%] flex flex-col items-start justify-start rounded-3xl p-6 mb-8 overflow-y-scroll  bg-slate-50 scrollbar-hide">
+      <div className="w-full min-h-dvh flex flex-col items-start justify-start px-28">
+        <div className="w-full h-[62%] flex flex-col items-start justify-start rounded-3xl p-6 mb-8 overflow-y-scroll  bg-slate-50 scrollbar-hide">
           <div className="w-full flex flex-row items-center justify-between pb-6">
             <h2 className="font-bold text-2xl">Últimos lançamentos</h2>
             <Button onClick={onClickAddButton} variant="smallButton">
@@ -136,7 +145,10 @@ export const HomeScreen = () => {
                     })}
                   </td>
                   <td className="px-4 py-2 text-right">
-                    <button className="text-red-600 hover:underline">
+                    <button
+                      className="text-red-600 hover:underline"
+                      onClick={() => handleDeleteItem(item.id)}
+                    >
                       Deletar
                     </button>
                   </td>

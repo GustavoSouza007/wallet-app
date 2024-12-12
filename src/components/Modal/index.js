@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useMutation } from "react-query";
-import { onCallAddFinance, categoriesCall } from "../../services/api/requests";
+import { onCallAddFinance, categoriesCall } from "../../services/request";
 
 export const Modal = ({ onClose, onFinanceAdded }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -51,7 +51,9 @@ export const Modal = ({ onClose, onFinanceAdded }) => {
       category: null,
     },
     validationSchema: Yup.object({
-      title: Yup.string().required("Título é obrigatório."),
+      title: Yup.string(2, "digite no mínimo 2 caracteres.").required(
+        "Título é obrigatório."
+      ),
       value: Yup.number()
         .required("Valor é obrigatório.")
         .typeError("Valor deve ser um número."),
