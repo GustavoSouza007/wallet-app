@@ -1,9 +1,8 @@
 import { apiProject } from "../api";
 
-export const getFinancesData = async () => {
+export const getFinancesData = async (date) => {
   try {
     const email = localStorage.getItem("@walletApp_email");
-    const date = "2022-12-15";
     const result = await apiProject.get(`finances?date=${date}`, {
       headers: {
         email: email,
@@ -13,10 +12,9 @@ export const getFinancesData = async () => {
     return result.data;
   } catch (error) {
     alert("Erro ao buscar dados da API");
-    return { error };
+    return [];
   }
 };
-
 export const categoriesCall = (data) => apiProject.get("/categories", data);
 
 export const onCallAddFinance = async (data) => {

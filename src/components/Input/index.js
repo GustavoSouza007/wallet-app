@@ -7,16 +7,18 @@ export const Input = ({
   id,
   value,
   onChange,
-  error,
+  error, // Exibe erro apenas se recebido
   step,
-  options = [], // Adicionamos options para suportar selects
+  options = [], // Para suporte a selects
 }) => {
   const baseClass =
     "w-full h-12 p-2 rounded-lg text-base border-solid border-2 focus:outline-none";
-  const borderClass = error ? "border-red-500" : "border-cyan-400";
+  const borderClass = error ? "border-red-500" : "border-cyan-400"; // Borda vermelha só se houver erro
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-3">
+      {" "}
+      {/* Aplica a margem inferior aqui */}
       <label htmlFor={id} className="mb-2 font-semibold">
         {label}
       </label>
@@ -46,7 +48,8 @@ export const Input = ({
           className={`${baseClass} ${borderClass} ${className}`}
         />
       )}
-      {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
+      {/* Aplique mb-0 somente na mensagem de erro */}
+      {error && <span className="text-red-500 text-sm mt-1 mb-0">{error}</span>}
     </div>
   );
 };
